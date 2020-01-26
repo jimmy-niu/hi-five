@@ -3,7 +3,7 @@ const VIDEO_SETTINGS = {
   video: { width: 800, height: 800, facingMode: 'environment' }
 }
 
-const RECORD_OPTIONS = { mimeType: "video/webm; codecs=vp9" }
+const RECORD_OPTIONS = { mimeType: "video/webm; codecs=vp8" }
 const RECORD_TIME_MS = 1000
 
 let mediaStream = null
