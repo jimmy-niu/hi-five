@@ -33,11 +33,21 @@ function recordOneSecond() {
   }, RECORD_TIME_MS)
 }
 
+function pad(n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
 
 function handleDataAvailable(event) {
   if (event.data.size > 0) {
     recordedChunks.push(event.data)
-    upload('testVid')
+	let uploadName; 
+	try {
+		let d = fakeDate();
+		uploadName = [d.getFullYear(), pad(d.getMonth() + 1, 2), pad(d.getDate(), 2)].join("-")
+	} catch { uploadName = 'testVid'; }
+	upload(uploadName);
   }
 }
 
