@@ -1,4 +1,16 @@
 window.onload = () => {
+  // Login to Firebase
+  firebase.auth().signInAnonymously().catch(function(error) {
+    alert(error.message)
+  })
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      console.log(user)
+    }
+  })
+
+  // Create videos
   const videoCalendarContainer = document.querySelector('.video-calendar-container')
 
   const yourVideos = Array(7).fill(0).map(_ => createVideo('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'))
