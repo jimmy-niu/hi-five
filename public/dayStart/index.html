@@ -223,6 +223,56 @@
 	</footer>
 	<script>
 		firebase.auth();
+
+		firebase.auth().onAuthStateChanged(function(user) {
+		console.log("AuthStateChanged");
+		let partnerID = null;
+
+function pad(n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
+
+		let d = fakeDate();
+		let dateName = [d.getFullYear(), pad(d.getMonth() + 1, 2), pad(d.getDate(), 2)].join("-");
+		if (user) {
+			//if (friendCode) {
+			// Add friend groups
+			const db = firebase.firestore()
+			
+
+			Promise.all([
+
+				//console.log(user.uid),
+				//console.log(db.collection("groups").doc(user.uid).get()),
+				db.collection("groups").doc(user.uid).get({source: 'default'}),
+			])
+			.then(doc => {
+				//partnerID = doc[doc.length - 1]._document.proto.fields.partnerID.stringValue;
+				let partnerID = doc[0].data().partnerID;
+				//partnerID = doc(user.uid);
+				setInterval(() => {
+
+					console.log("beep");
+					//try {
+						firebase.storage().ref().child(`/user/${partnerID}/${dateName}.webm`).getDownloadURL().then(
+							x => {
+								if (x) {
+									onPartnerSubmit();
+								};
+							}
+						);
+						/*if (firebase.storage().ref().child(`/user/${partnerid}/${datename}.webm`).getdownloadurl().i.code == "storage/object-not-found") {
+							onPartnerSubmit();
+						}; */
+					//} 
+				}, 2000);
+			}).catch()
+			//.catch(() => {console.log('error');})
+			//}
+		}
+		})
 		{
 		// TODO: Get the partner's name from the backend
 		let partnerName = "Your partner";
