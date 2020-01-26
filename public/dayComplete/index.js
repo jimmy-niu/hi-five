@@ -6,17 +6,59 @@ window.onload = () => {
 
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
-      console.log(user)
+      const extractDate = str => str.match(/(\d{4})-(\d{1,2})-(\d{1,2})\.webm/)
+
+      const populateVideos = (ref, prefix) => {
+        ref.listAll()
+        .then(({ items }) => {
+          items
+            .filter(({ fullPath }) => extractDate(fullPath))
+            .forEach(({ fullPath }) => {
+              storageRef.child(fullPath).getDownloadURL()
+              .then(videoURL => {
+                // TODO: Handle month and year changes
+                const daysPast = new Date().getDate() - (+extractDate(videoURL)[3])
+
+                if (daysPast === 0) {
+                  const video = document.querySelector(`#${prefix}-header-video`)
+    
+                  video.src = videoURL
+                }
+
+                if (1 <= daysPast || daysPast <= 6) {
+                  const video = document.querySelector(`#${prefix}-${daysPast}`)
+    
+                  video.src = videoURL
+                }
+              })
+            })
+        })
+        .catch(e => alert(e.message))
+      }
+
+      // Get your videos
+      const storageRef = firebase.storage().ref()
+      const userFolderRef = storageRef.child(`/user/${user.uid}`)
+
+      populateVideos(userFolderRef, 'your')
+
+      // Get partner videos
+      const db = firebase.firestore()
+      db.collection("groups").doc(user.uid).get().then(doc => {
+        const partnerFolderRef = storageRef.child(`/user/${doc.data().partnerID}`)
+        populateVideos(partnerFolderRef, 'partner')
+      })
     }
   })
 
   // Create videos
   const videoCalendarContainer = document.querySelector('.video-calendar-container')
 
-  const yourVideos = Array(7).fill(0).map(_ => createVideo('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'))
-  const otherVideos = Array(7).fill(0).map(_ => createVideo('http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'))
+  // 0 indexed video goes in main display
+  const yourVideos = Array(6).fill(0).map((_, i) => createVideo(`your-${i + 1}`))
+  const partnerVideos = Array(6).fill(0).map((_, i) => createVideo(`partner-${i + 1}`))
 
-  const pairs = yourVideos.map((vid, i) => createPair(vid, otherVideos[i]))
+  const pairs = yourVideos.map((vid, i) => createPair(vid, partnerVideos[i]))
 
   appendChildren(videoCalendarContainer, pairs)
 }
@@ -37,10 +79,10 @@ function createPair(video1, video2) {
  * @param {Number} height optional height of the video
  * @return {VideoNode}
  */
-function createVideo(src, width = 100, height = 100) {
+function createVideo(id, width = 100, height = 100) {
   return htmlToElements(
-    `<video width="${width}" height="${height}" autoplay muted loop>
-      <source src="${src}" />
+    `<video id="${id}" width="${width}" height="${height}" autoplay muted loop>
+      <source src="" />
       Video could not be loaded
     </video>`
   )[0]

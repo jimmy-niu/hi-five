@@ -1,172 +1,169 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title></title>
-		<style>
-		* {
-			--hand-size: calc(100vw / 3.2);
-		}
-		body {
-			font-family: sans;
-		}
-		.hands-container {
-			margin: auto;
-			position: relative;
-			border: 1px solid rgba(0, 0, 0, 0);
-			height: calc(var(--hand-size) * 1.3);
-			width: calc(var(--hand-size) * 3);
-		}
-		.hand {
-			transform-origin: 50% 50%;
-			width: var(--hand-size);
-			height: var(--hand-size);
-			position: absolute;
-			top: 0px;
-			left: 0px;
-			transition: .5s transform ease-in;
-		}
-		.hand > object {
-			width: 100%;
-			height: 100%;
-		}
-		.yours {
-			z-index: 10;
-			transform: translate(0px, 50px);
-		}
-		.theirs {
-			z-index: -10;
-			transform: 
-				translate(
-					calc(2 * var(--hand-size)), 
-					0px
-				) 
-				scale(.80);
-		}
-		.theirs.slapped {
-			transform:  translate(calc(2 * var(--hand-size) * .55), 0px) scale(.9) rotate(-15deg);
-		}
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto&display=swap"
+            rel="stylesheet"
+        />
+        <title></title>
+        <style>
+            * {
+                --hand-size: calc(100vw / 3.2);
+            }
+            body {
+                font-family: sans;
+            }
+            .hands-container {
+                margin: auto;
+                position: relative;
+                border: 1px solid rgba(0, 0, 0, 0);
+                height: calc(var(--hand-size) * 1.3);
+                width: calc(var(--hand-size) * 3);
+            }
+            .hand {
+                transform-origin: 50% 50%;
+                width: var(--hand-size);
+                height: var(--hand-size);
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                transition: 0.5s transform ease-in;
+            }
+            .hand > object {
+                width: 100%;
+                height: 100%;
+            }
+            .yours {
+                z-index: 10;
+                transform: translate(0px, 50px);
+            }
+            .theirs {
+                z-index: -10;
+                transform: translate(calc(2 * var(--hand-size)), 0px) scale(0.8);
+            }
+            .theirs.slapped {
+                transform: translate(calc(2 * var(--hand-size) * 0.55), 0px) scale(0.9)
+                    rotate(-15deg);
+            }
 
-		.yours.slapped {
-			transform:
-				translate(
-					calc(2 * var(--hand-size) * .45), 
-					calc(var(--hand-size) / 12)
-			    )
-				scale(.9)
-				rotate(15deg);
-		}
-		.upload-region {
-			margin: auto;
-			box-sizing: border-box;
+            .yours.slapped {
+                transform: translate(calc(2 * var(--hand-size) * 0.45), calc(var(--hand-size) / 12))
+                    scale(0.9) rotate(15deg);
+            }
+            .upload-region {
+                margin: auto;
+                box-sizing: border-box;
 
-			margin-top: calc(var(--hand-size) * .33);
-			width:  calc(var(--hand-size));
-			/*height: calc(var(--hand-size) / 2);*/
-			padding: 10px;
-			transition: opacity .25s ease-in;
-		}
-		.upload-region .submit-button {
-			width: 100%;
-		}
-		.ready-message {
-			text-align: center;
-			font-size: 12pt;
-		}
-		.divClass{
-			box-sizing: border-box;
-			position: relative;
-			height: calc(var(--hand-size) / 2);
-			width: 100%;
-			background: whitesmoke;
-			border: 1px solid #ddd;
-			border-radius: 5px;
-			padding: 5px;
-			text-align: center;
-			margin-bottom: 5px;
-		}
-		.divClass:after {
-			position: absolute;
-			top: 0px;
-			bottom: 0px;
-			left: 0px;
-			right: 0px;
-			line-height: calc(var(--hand-size) / 2);
-			content: "Pick video";
-			pointer-events: none;
-			z-index: 1;
-			overflow: hidden;
-		}
-		.inputClass{
-			opacity: 0;
-			position: absolute;
-			top:0;
-			left: 0;
-			height: 100%;
-			width: 100%;
-		}
-		video {
-			position: relative;
-			max-width: 100%;
-			max-height: 100%;
-			z-index: 5;
-		}
-		.spinner {
-			height: calc(var(--hand-size) / 2);
-			width: calc(var(--hand-size) / 2);
-			border-radius: 100%;
-			border: 5px solid black;
-			animation: spin 1s linear infinite;
-			margin: auto;
-		}
-		.spinner:after {
-			content: " ";
-			height: calc(var(--hand-size) / 8);
-			width: calc(var(--hand-size) / 8);
-			border-radius: 100%;
-			background: black;
-			float: right;
-		}
-		@keyframes spin {
-			from {
-				transform: rotate(0deg);
-			}
-			to {
-				transform: rotate(360deg);
-			}
-		}
-		.submit-button {
-			z-index: 100;
-		}
-		.hidden {
-			display: none;
-		}
-		footer {
-			padding-left: 10px;
-			padding-right: 10px;
-			position: fixed;
-			bottom: 0px;
-			left: 0px;
-			right: 0px;
-			height: 60px;
-			line-height: 60px;
-			background: #4674C0;
-			color: white;
-		}
-		#date-header {
-			text-align: center;
-			font-weight: 300;
-			margin-top: 2em;
-		}
-		</style>
-		<script>
-			function fakeDate() {
-				return new Date();
-			}
-		</script>
+                margin-top: calc(var(--hand-size) * 0.33);
+                width: calc(var(--hand-size));
+                /*height: calc(var(--hand-size) / 2);*/
+                padding: 10px;
+                transition: opacity 0.25s ease-in;
+            }
+            .upload-region .submit-button {
+                width: 100%;
+            }
+            .ready-message {
+                text-align: center;
+                font-size: 12pt;
+            }
+            .divClass {
+                box-sizing: border-box;
+                position: relative;
+                height: calc(var(--hand-size) / 2);
+                width: 100%;
+                background: whitesmoke;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 5px;
+                text-align: center;
+                margin-bottom: 5px;
+            }
+            .divClass:after {
+                position: absolute;
+                top: 0px;
+                bottom: 0px;
+                left: 0px;
+                right: 0px;
+                line-height: calc(var(--hand-size) / 2);
+                content: "Pick video";
+                pointer-events: none;
+                z-index: 1;
+                overflow: hidden;
+            }
+            .inputClass {
+                opacity: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+            }
+            video {
+                position: relative;
+                max-width: 100%;
+                max-height: 100%;
+                z-index: 5;
+            }
+            .spinner {
+                height: calc(var(--hand-size) / 2);
+                width: calc(var(--hand-size) / 2);
+                border-radius: 100%;
+                border: 5px solid black;
+                animation: spin 1s linear infinite;
+                margin: auto;
+            }
+            .spinner:after {
+                content: " ";
+                height: calc(var(--hand-size) / 8);
+                width: calc(var(--hand-size) / 8);
+                border-radius: 100%;
+                background: black;
+                float: right;
+            }
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+            .submit-button {
+                z-index: 100;
+            }
+            .hidden {
+                display: none;
+            }
+            footer {
+                display: flex;
+                align-content: center;
+                justify-content: center;
+                padding-left: 10px;
+                padding-right: 10px;
+                position: fixed;
+                bottom: 0px;
+                left: 0px;
+                right: 0px;
+                height: 60px;
+                line-height: 60px;
+                background: #4674c0;
+                color: white;
+            }
+            #date-header {
+                text-align: center;
+                font-weight: 300;
+                margin-top: 2em;
+            }
+        </style>
+        <script>
+            function fakeDate() {
+                return new Date();
+            }
+        </script>
         <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
-
         <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
@@ -187,27 +184,26 @@
             firebase.initializeApp(firebaseConfig);
             firebase.analytics();
         </script>
-		<!--script src="../dayComplete/index.js"></script-->
-		<script src="../dayComplete/getMedia.js"></script>
-	</head>
-	<body>
-	<h1 id="date-header">Sunday, January 26</h1>
-	<div class="hands-container">
-		<div class="hand yours">
-			<object data="your-hand.svg" type="image/svg+xml"></object>
-			<p class="ready-message"></p>
-			
-		</div>
-		<div class="hand theirs">
-			<object data="their-hand.svg" type="image/svg+xml"></object>
-			<p class="ready-message"></p>
-		</div>
-		<div class="upload-region">
-			<div id="video-container">
-				<form>
-					<!--input type="file"/-->
-					<div class="divClass">
-						<!--Pick a video-->
+        <!--script src="../dayComplete/index.js"></script-->
+        <script src="../dayComplete/getMedia.js"></script>
+    </head>
+    <body>
+        <h1 id="date-header">Sunday, January 26</h1>
+        <div class="hands-container">
+            <div class="hand yours">
+                <object data="your-hand.svg" type="image/svg+xml"></object>
+                <p class="ready-message"></p>
+            </div>
+            <div class="hand theirs">
+                <object data="their-hand.svg" type="image/svg+xml"></object>
+                <p class="ready-message"></p>
+            </div>
+            <div class="upload-region">
+                <div id="video-container">
+                    <form>
+                        <!--input type="file"/-->
+                        <div class="divClass">
+                            <!--Pick a video-->
 
 						<video muted id="video-preview" ></video>
 						<!--input class="inputClass" name="inputName" type="file" id="video-upload"-->
@@ -277,35 +273,94 @@ function pad(n, width, z) {
 		// TODO: Get the partner's name from the backend
 		let partnerName = "Your partner";
 
-		// TODO: Check if the partner has already submitted
-		// TODO: (Maybe) poll for partner submit after page-load
-		if (false) {
-			onPartnerSubmit();
-		}
+                // TODO: Check if the partner has already submitted
+                // TODO: (Maybe) poll for partner submit after page-load
+                if (false) {
+                    onPartnerSubmit();
+                }
 
-		// TODO: Get the streak number
-		let streak = 15;
-		document.querySelector("footer > .streak-counter").innerHTML = "Streak: " + streak;
+                // TODO: Check if the partner has already submitted
+                // TODO: (Maybe) poll for partner submit after page-load
+                if (false) {
+                    onPartnerSubmit();
+                }
 
-		// I'm sure we won't run into any edge-cases
-		function dateString() {
-			let d = fakeDate();
-			return ["Sunday", "Monday", "Tuesday", "Wednesday", 
-			        "Thursday", "Friday", "Saturday"][d.getDay()] + ", " +
-			       ["January", "February", "March", "April",
-			        "May", "June", "July", "August",
-					"September", "October", "November", "December"][d.getMonth()] + " " + d.getDate();
-		}
-		document.getElementById("date-header").innerHTML = dateString();
-		document.querySelector("title").innerHTML = dateString();
+                // I'm sure we won't run into any edge-cases
+                function dateString() {
+                    let d = fakeDate();
+                    return (
+                        [
+                            "Sunday",
+                            "Monday",
+                            "Tuesday",
+                            "Wednesday",
+                            "Thursday",
+                            "Friday",
+                            "Saturday"
+                        ][d.getDay()] +
+                        ", " +
+                        [
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December"
+                        ][d.getMonth()] +
+                        " " +
+                        d.getDate()
+                    );
+                }
+                document.getElementById("date-header").innerHTML = dateString();
+                document.querySelector("title").innerHTML = dateString();
 
+                // I'm sure we won't run into any edge-cases
+                function dateString() {
+                    let d = new Date();
+                    return (
+                        [
+                            "Sunday",
+                            "Monday",
+                            "Tuesday",
+                            "Wednesday",
+                            "Thursday",
+                            "Friday",
+                            "Saturday"
+                        ][d.getDay()] +
+                        ", " +
+                        [
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December"
+                        ][d.getMonth()] +
+                        " " +
+                        d.getDate()
+                    );
+                }
+                document.getElementById("date-header").innerHTML = dateString();
+                document.querySelector("title").innerHTML = dateString();
 
-		let videoContainer = document.getElementById("video-container");
-		let videoPreview = document.getElementById("video-preview");
-		let selectedVideo;
-		let videoUpload = document.getElementById("video-upload");
-		let spinner = document.querySelector(".upload-region > .spinner");
-		/*videoUpload.addEventListener("change", evt => {
+                let videoContainer = document.getElementById("video-container");
+                let videoPreview = document.getElementById("video-preview");
+                let selectedVideo;
+                let videoUpload = document.getElementById("video-upload");
+                let spinner = document.querySelector(".upload-region > .spinner");
+                /*videoUpload.addEventListener("change", evt => {
 			selectedVideo = evt.target.files[0];
 			let fr = new FileReader();
 			fr.onload = function () {
@@ -320,121 +375,135 @@ function pad(n, width, z) {
 			fr.readAsDataURL(selectedVideo);
 		}, false);*/
 
-		document.querySelector(".divClass").addEventListener("click", () => {
-			startCameraPreview();
-		}, false);
+                document.querySelector(".divClass").addEventListener(
+                    "click",
+                    () => {
+                        startCameraPreview();
+                    },
+                    false
+                );
 
-		let partnerSubmitted = false;
-		let userSubmitted = false;
+                let partnerSubmitted = false;
+                let userSubmitted = false;
 
-		let partnerReadyMessage = document.querySelector(".hand.theirs > .ready-message");
-		let yourReadyMessage = document.querySelector(".hand.yours > .ready-message");
-		partnerReadyMessage.innerHTML = partnerName + " is not finished.";
-		yourReadyMessage.innerHTML = "You are not finished.";
-		
-		function onPartnerSubmit() {
-			partnerSubmitted = true;
-			recolorHand(theirHand);
-			partnerReadyMessage.innerHTML = partnerName + " is finished!"
-			if (userSubmitted) {
-				setTimeout(highFive, 1000);
-			}
-		}
+                let partnerReadyMessage = document.querySelector(".hand.theirs > .ready-message");
+                let yourReadyMessage = document.querySelector(".hand.yours > .ready-message");
+                partnerReadyMessage.innerHTML = partnerName + " is not finished.";
+                yourReadyMessage.innerHTML = "You are not finished.";
 
-		function submit() {
-			let uploadRegion = document.querySelector(".upload-region");
-			//uploadRegion.style.opacity = 0;
-			videoContainer.classList.add("hidden");
-			spinner.classList.remove("hidden");
-			yourReadyMessage.innerHTML = "Sending your video…";
-			try {
-				recordOneSecond();
-			} catch {
-				submissionFailure();
-				return;
-			}
-			submissionComplete();
-			/*setTimeout(() => {
+                function onPartnerSubmit() {
+                    partnerSubmitted = true;
+                    recolorHand(theirHand);
+                    partnerReadyMessage.innerHTML = partnerName + " is finished!";
+                    if (userSubmitted) {
+                        setTimeout(highFive, 1000);
+                    }
+                }
+
+                function submit() {
+                    let uploadRegion = document.querySelector(".upload-region");
+                    //uploadRegion.style.opacity = 0;
+                    videoContainer.classList.add("hidden");
+                    spinner.classList.remove("hidden");
+                    yourReadyMessage.innerHTML = "Sending your video…";
+                    try {
+                        recordOneSecond();
+                    } catch {
+                        submissionFailure();
+                        return;
+                    }
+                    submissionComplete();
+                    /*setTimeout(() => {
 				if (Math.random() > .5) {
 					submissionComplete();
 				} else {
 					submissionFailure();
 				}
 			}, 3000);*/
-		}
+                }
 
-		function submissionFailure() {
-			videoContainer.classList.remove("hidden");
-			spinner.classList.add("hidden");
-			alert("Could not upload your video");
-		}
+                function submissionFailure() {
+                    videoContainer.classList.remove("hidden");
+                    spinner.classList.add("hidden");
+                    alert("Could not upload your video");
+                }
 
-		function submissionComplete() {
-			yourReadyMessage.innerHTML = "You're all set!"
-			spinner.classList.add("hidden");
-			recolorHand(yourHand);
-			userSubmitted = true;
-			if (partnerSubmitted) {
-				highFive();
-			}
-		}
-		function dominationComplete() {alert('Noice')};
+                function submissionComplete() {
+                    yourReadyMessage.innerHTML = "You're all set!";
+                    spinner.classList.add("hidden");
+                    recolorHand(yourHand);
+                    userSubmitted = true;
+                    if (partnerSubmitted) {
+                        highFive();
+                    }
+                }
+                function dominationComplete() {
+                    alert("Noice");
+                }
 
-		let theirHand = document.querySelector(".hand.theirs");
-		let yourHand = document.querySelector(".hand.yours");
-	
-		function highFive() {
-			theirHand.classList.add("slapped");
-			yourHand.classList.add("slapped");
-			partnerReadyMessage.classList.add("hidden");
-			yourReadyMessage.classList.add("hidden");
+                let theirHand = document.querySelector(".hand.theirs");
+                let yourHand = document.querySelector(".hand.yours");
 
-			setTimeout(() => {
-				window.location = "../dayComplete";
-			}, 3000);
-		}
+                function highFive() {
+                    theirHand.classList.add("slapped");
+                    yourHand.classList.add("slapped");
+                    partnerReadyMessage.classList.add("hidden");
+                    yourReadyMessage.classList.add("hidden");
 
-		theirHand.svg = theirHand.children[0];
-		yourHand.svg = yourHand.children[0];
+                    setTimeout(() => {
+                        window.location = "../dayComplete";
+                    }, 3000);
+                }
 
-		theirHand.svg.addEventListener("load", function() {
-			theirHand.doc = theirHand.svg.contentDocument;
-			if (!partnerSubmitted) greyHand(theirHand);
-		}, false);
+                theirHand.svg = theirHand.children[0];
+                yourHand.svg = yourHand.children[0];
 
-		yourHand.svg.addEventListener("load", function() {
-			yourHand.doc = yourHand.svg.contentDocument;
-			greyHand(yourHand);
-		}, false);
+                theirHand.svg.addEventListener(
+                    "load",
+                    function() {
+                        theirHand.doc = theirHand.svg.contentDocument;
+                        if (!partnerSubmitted) greyHand(theirHand);
+                    },
+                    false
+                );
 
-		function greyHand(hand) {
-			hand.inherentColor = {};
-			hand.inherentColor.highlight = getHighlightColor(hand);
-			hand.inherentColor.base = getBaseColor(hand);
-			colorHand(hand, "rgb(200, 200, 200)", "rgb(225, 225, 225)");
-		}
-		function recolorHand(hand) {
-			colorHand(hand, hand.inherentColor.base, hand.inherentColor.highlight);
-		}
+                yourHand.svg.addEventListener(
+                    "load",
+                    function() {
+                        yourHand.doc = yourHand.svg.contentDocument;
+                        greyHand(yourHand);
+                    },
+                    false
+                );
 
-		function getBaseColor(hand) {
-			let base = hand.doc.getElementById("base");
-			return base.style.fill;
-		}
-		function getHighlightColor(hand) {
-			let highlight = hand.doc.getElementById("highlight");
-			return highlight.getElementsByTagName("path")[0].style.fill;
-		}
-		function colorHand(hand, baseColor, highlightColor) {
-			let base = hand.doc.getElementById("base");
-			base.style.fill = baseColor;
+                function greyHand(hand) {
+                    hand.inherentColor = {};
+                    hand.inherentColor.highlight = getHighlightColor(hand);
+                    hand.inherentColor.base = getBaseColor(hand);
+                    colorHand(hand, "rgb(200, 200, 200)", "rgb(225, 225, 225)");
+                }
+                function recolorHand(hand) {
+                    colorHand(hand, hand.inherentColor.base, hand.inherentColor.highlight);
+                }
 
-			let highlight = hand.doc.getElementById("highlight");
-			for (path of highlight.getElementsByTagName("path")) {
-				path.style.fill = highlightColor;
-			}
-		}
-		}
-	</script>
-	</body>
+                function getBaseColor(hand) {
+                    let base = hand.doc.getElementById("base");
+                    return base.style.fill;
+                }
+                function getHighlightColor(hand) {
+                    let highlight = hand.doc.getElementById("highlight");
+                    return highlight.getElementsByTagName("path")[0].style.fill;
+                }
+                function colorHand(hand, baseColor, highlightColor) {
+                    let base = hand.doc.getElementById("base");
+                    base.style.fill = baseColor;
+
+                    let highlight = hand.doc.getElementById("highlight");
+                    for (path of highlight.getElementsByTagName("path")) {
+                        path.style.fill = highlightColor;
+                    }
+                }
+            }
+        </script>
+    </body>
 </html>
