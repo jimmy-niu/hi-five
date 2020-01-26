@@ -158,6 +158,11 @@
                 margin-top: 2em;
             }
         </style>
+        <script>
+            function fakeDate() {
+                return new Date();
+            }
+        </script>
         <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
@@ -210,13 +215,13 @@
             </div>
         </div>
         <footer>
-            <span class="streak-counter"></span>
+            <span class="streak-counter">Streak: 300 Days</span>
         </footer>
         <script>
             firebase.auth();
             {
                 // TODO: Get the partner's name from the backend
-                let partnerName = "Maya";
+                let partnerName = "Your partner";
 
                 // TODO: Check if the partner has already submitted
                 // TODO: (Maybe) poll for partner submit after page-load
@@ -224,9 +229,46 @@
                     onPartnerSubmit();
                 }
 
-                // TODO: Get the streak number
-                let streak = 15;
-                document.querySelector("footer > .streak-counter").innerHTML = "Streak: " + streak;
+                // TODO: Check if the partner has already submitted
+                // TODO: (Maybe) poll for partner submit after page-load
+                if (false) {
+                    onPartnerSubmit();
+                }
+
+                // I'm sure we won't run into any edge-cases
+                function dateString() {
+                    let d = fakeDate();
+                    return (
+                        [
+                            "Sunday",
+                            "Monday",
+                            "Tuesday",
+                            "Wednesday",
+                            "Thursday",
+                            "Friday",
+                            "Saturday"
+                        ][d.getDay()] +
+                        ", " +
+                        [
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December"
+                        ][d.getMonth()] +
+                        " " +
+                        d.getDate()
+                    );
+                }
+                document.getElementById("date-header").innerHTML = dateString();
+                document.querySelector("title").innerHTML = dateString();
 
                 // I'm sure we won't run into any edge-cases
                 function dateString() {
