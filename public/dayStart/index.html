@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title></title>
 		<style>
 		* {
@@ -214,11 +215,24 @@
 		</div>
 	</div>
 	<footer>
-	Streak: 32
+	<span class="streak-counter"></span>
 	</footer>
 	<script>
 		firebase.auth();
 		{
+		// TODO: Get the partner's name from the backend
+		let partnerName = "Maya";
+
+		// TODO: Check if the partner has already submitted
+		// TODO: (Maybe) poll for partner submit after page-load
+		if (false) {
+			onPartnerSubmit();
+		}
+
+		// TODO: Get the streak number
+		let streak = 15;
+		document.querySelector("footer > .streak-counter").innerHTML = "Streak: " + streak;
+
 		// I'm sure we won't run into any edge-cases
 		function dateString() {
 			let d = new Date();
@@ -229,6 +243,7 @@
 					"September", "October", "November", "December"][d.getMonth()] + " " + d.getDate();
 		}
 		document.getElementById("date-header").innerHTML = dateString();
+		document.querySelector("title").innerHTML = dateString();
 
 
 		let videoContainer = document.getElementById("video-container");
@@ -257,7 +272,6 @@
 
 		let partnerSubmitted = false;
 		let userSubmitted = false;
-		let partnerName = "Maya";
 
 		let partnerReadyMessage = document.querySelector(".hand.theirs > .ready-message");
 		let yourReadyMessage = document.querySelector(".hand.yours > .ready-message");
